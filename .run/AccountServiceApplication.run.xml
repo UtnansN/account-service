@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="AccountServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
     <envs>
-      <env name="CURRENCY_BEACON_KEY" value="EBIYpgsWapX7p04Y16Rp7U4bIzV73HD8" />
+      <env name="CURRENCY_BEACON_KEY" value="" />
     </envs>
     <module name="account-service.main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.utnans.accountservice.AccountServiceApplication" />
