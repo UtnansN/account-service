@@ -39,8 +39,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: acct_no
-                  type: bigint
-                  autoIncrement: true
+                  type: varchar(16)
                   constraints:
                     primaryKey: true
                     nullable: false
@@ -62,3 +61,225 @@ databaseChangeLog:
                   defaultValue: "0"
                   constraints:
                     nullable: false
+  - changeSet:
+      id: 2
+      author: Nauris Utnans
+      context: JIRA-0
+      comment: Adding data for testing
+      changes:
+        - insert:
+            tableName: client
+            columns:
+              - column:
+                  name: first_name
+                  value: John
+              - column:
+                  name: last_name
+                  value: Cena
+              - column:
+                  name: email
+                  value: jcena@test.com
+              - column:
+                  name: tax_number
+                  value: 123456-12345
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: acct_no
+                  value: "58129431"
+              - column:
+                  name: client_id
+                  valueSequenceCurrent: client_id_seq
+              - column:
+                  name: currency
+                  value: USD
+              - column:
+                  name: balance
+                  value: "5000.25"
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: acct_no
+                  value: "79842731"
+              - column:
+                  name: client_id
+                  valueSequenceCurrent: client_id_seq
+              - column:
+                  name: currency
+                  value: EUR
+              - column:
+                  name: balance
+                  value: "12.65"
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: acct_no
+                  value: "92372135"
+              - column:
+                  name: client_id
+                  valueSequenceCurrent: client_id_seq
+              - column:
+                  name: currency
+                  value: CAD
+        - insert:
+            tableName: client
+            columns:
+              - column:
+                  name: first_name
+                  value: Dwayne
+              - column:
+                  name: last_name
+                  value: Johnson
+              - column:
+                  name: email
+                  value: djohnson@test.com
+              - column:
+                  name: tax_number
+                  value: 987654-98765
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: acct_no
+                  value: "39237032"
+              - column:
+                  name: client_id
+                  valueSequenceCurrent: client_id_seq
+              - column:
+                  name: currency
+                  value: USD
+              - column:
+                  name: balance
+                  value: "60000.12"
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: acct_no
+                  value: "29172190"
+              - column:
+                  name: client_id
+                  valueSequenceCurrent: client_id_seq
+              - column:
+                  name: currency
+                  value: EUR
+              - column:
+                  name: balance
+                  value: "7400.65"
+        - insert:
+            tableName: client
+            columns:
+              - column:
+                  name: first_name
+                  value: Hulk
+              - column:
+                  name: last_name
+                  value: Hogan
+              - column:
+                  name: email
+                  value: hhogan@test.com
+              - column:
+                  name: tax_number
+                  value: 567890-54321
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: acct_no
+                  value: "91872152"
+              - column:
+                  name: client_id
+                  valueSequenceCurrent: client_id_seq
+              - column:
+                  name: currency
+                  value: USD
+              - column:
+                  name: balance
+                  value: "7500"
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: acct_no
+                  value: "91812631"
+              - column:
+                  name: client_id
+                  valueSequenceCurrent: client_id_seq
+              - column:
+                  name: currency
+                  value: HKD
+              - column:
+                  name: balance
+                  value: "50000"
+  - changeSet:
+      id: 3
+      author: Nauris Utnans
+      context: JIRA-0
+      comment: Transactions for accounts
+      changes:
+        - createTable:
+            tableName: account_transactions
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: exec_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sender_id
+                  type: varchar(16)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_account_tx_sender
+                    references: account(acct_no)
+              - column:
+                  name: sender_amount
+                  type: currency
+                  constraints:
+                    nullable: false
+              - column:
+                  name: receiver_id
+                  type: varchar(16)
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_account_tx_receiver
+                    references: account(acct_no)
+              - column:
+                  name: receiver_amount
+                  type: currency
+                  constraints:
+                    nullable: false
+#  - changeSet:
+#      id: 4
+#      author: Nauris Utnans
+#      context: JIRA-0
+#      comment: Add test transactions
+#      changes:
+#        - insert:
+#            tableName: account_transactions
+#            columns:
+#              - column:
+#                    name: exec_date
+#                    value: HKD
+#              - column:
+#                  name: sender_id
+#                  value: "91812631"
+#              - column:
+#                  name: sender_amount
+#                  value: "500"
+#              - column:
+#                  name: receiver_id
+#                  value: client_id_seq
+#              - column:
+#                  name: balance
+#                  value: "50000"

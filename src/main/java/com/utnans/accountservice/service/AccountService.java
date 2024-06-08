@@ -1,16 +1,16 @@
 package com.utnans.accountservice.service;
 
-import com.utnans.accountservice.repository.AccountRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.utnans.accountservice.dto.AccountDto;
+import com.utnans.accountservice.dto.TransactionDto;
+import com.utnans.accountservice.dto.TransferRequestDto;
+import org.springframework.data.domain.Pageable;
 
-@Service
-@RequiredArgsConstructor
-public class AccountService {
+import java.util.List;
 
-    private final CurrencyService currencyService;
-    private final AccountRepository accountRepository;
+public interface AccountService {
+    List<AccountDto> getClientAccounts(Long id);
 
+    List<TransactionDto> getLatestTransactions(String acctNo, Pageable pageable);
 
-
+    void transferMoney(TransferRequestDto transferRequestDto);
 }

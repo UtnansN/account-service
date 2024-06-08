@@ -1,21 +1,23 @@
 package com.utnans.accountservice.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
+@Entity
+@Table(name = "client")
 public class Client {
 
     @Id
+    @GeneratedValue(generator = "client_id_seq")
     private Long id;
 
     @NotNull
@@ -25,13 +27,29 @@ public class Client {
     private String lastName;
 
     @NotNull
-    private String taxIdNumber;
+    private String taxNumber;
 
     @Email
     @NotNull
     private String email;
 
-    @OneToMany
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private List<Account> accounts;
 
+    public String getFullName() {
+        return "%s %s".formatted(firstName, lastName);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return new EqualsBuilder().append(id, client.id).append(firstName, client.firstName).append(lastName, client.lastName).append(taxNumber, client.taxNumber).append(email, client.email).append(accounts, client.accounts).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(id).append(firstName).append(lastName).append(taxNumber).append(email).append(accounts).toHashCode();
+    }
 }

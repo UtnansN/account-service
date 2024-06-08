@@ -1,7 +1,8 @@
 package com.utnans.accountservice.service;
 
-import org.springframework.stereotype.Service;
+import java.math.BigDecimal;
+import java.util.Currency;
 
-@Service
-public class CurrencyService {
+public interface CurrencyService {
+    BigDecimal getConvertedValue(Currency baseCurrency, Currency targetCurrency, BigDecimal amount);
 }

@@ -1,3 +1,8 @@
+app:
+  currency-beacon:
+    base-url: https://api.currencybeacon.com/v1
+    api-key: ${CURRENCY_BEACON_KEY}
+
 spring:
   application:
     name: account-service
