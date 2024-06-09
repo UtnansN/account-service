@@ -24,6 +24,7 @@ public class Account {
     @NotNull
     private Currency currency;
 
+    // Need Liquibase PRO to add addCheckConstraint to DB itself :(
     @PositiveOrZero
     private BigDecimal balance;
 

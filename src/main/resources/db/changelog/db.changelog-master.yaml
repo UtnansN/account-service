@@ -259,27 +259,3 @@ databaseChangeLog:
                   type: currency
                   constraints:
                     nullable: false
-#  - changeSet:
-#      id: 4
-#      author: Nauris Utnans
-#      context: JIRA-0
-#      comment: Add test transactions
-#      changes:
-#        - insert:
-#            tableName: account_transactions
-#            columns:
-#              - column:
-#                    name: exec_date
-#                    value: HKD
-#              - column:
-#                  name: sender_id
-#                  value: "91812631"
-#              - column:
-#                  name: sender_amount
-#                  value: "500"
-#              - column:
-#                  name: receiver_id
-#                  value: client_id_seq
-#              - column:
-#                  name: balance
-#                  value: "50000"
