@@ -42,7 +42,7 @@ public class CurrencyBeaconService implements CurrencyService {
         var response = restTemplate.getForEntity(uri, CurrencyBeaconResponse.class);
 
         if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
-            throw new CurrencyConversionException();
+            throw new CurrencyConversionException("There was an issue calling currency service");
         }
 
         var convertedValue = new BigDecimal(response.getBody().value());

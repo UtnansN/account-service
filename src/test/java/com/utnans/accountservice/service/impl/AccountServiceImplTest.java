@@ -43,7 +43,7 @@ class AccountServiceImplTest {
     private TransactionRepository transactionRepository;
 
     @InjectMocks
-    private AccountServiceImpl accountService;
+    private AccountServiceImpl target;
 
     @Test
     @DisplayName("Returns accounts if client is found")
@@ -63,7 +63,7 @@ class AccountServiceImplTest {
         when(accountMapper.toAccountDtos(accountList)).thenReturn(accountDtos);
 
         // Act
-        var result = accountService.getClientAccounts(1L);
+        var result = target.getClientAccounts(1L);
 
         // Assert
         assertThat(result).isEqualTo(accountDtos);
@@ -76,7 +76,7 @@ class AccountServiceImplTest {
         when(clientRepository.findById(1L)).thenReturn(Optional.empty());
 
         // Act
-        var exception = assertThrows(BadRequestException.class, () -> accountService.getClientAccounts(1L),
+        var exception = assertThrows(BadRequestException.class, () -> target.getClientAccounts(1L),
                 "Expected AccountService to throw an exception if client was not found");
 
         // Assert
@@ -99,7 +99,7 @@ class AccountServiceImplTest {
         when(transactionMapper.toTransactionDtos(transactions)).thenReturn(transactionDtos);
 
         // Act
-        var result = accountService.getTransactions(acctNo, offset, limit);
+        var result = target.getTransactions(acctNo, offset, limit);
 
         // Assert
         assertThat(result).isEqualTo(transactionDtos);

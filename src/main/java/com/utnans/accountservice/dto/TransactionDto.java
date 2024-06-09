@@ -12,8 +12,8 @@ public class TransactionDto {
     private BigDecimal sentAmount;
     private String sentCurrency;
 
-    private Long senderAccountNo;
+    private String senderAccountNo;
     private String senderName;
-    private Long receiverAccountNo;
+    private String receiverAccountNo;
     private String receiverName;
 }
