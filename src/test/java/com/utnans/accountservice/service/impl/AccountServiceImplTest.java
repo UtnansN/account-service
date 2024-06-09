@@ -5,9 +5,10 @@ import com.utnans.accountservice.dto.TransactionDto;
 import com.utnans.accountservice.entity.Account;
 import com.utnans.accountservice.entity.Client;
 import com.utnans.accountservice.entity.Transaction;
-import com.utnans.accountservice.exception.BadRequestException;
+import com.utnans.accountservice.exception.NotFoundException;
 import com.utnans.accountservice.mapper.AccountMapper;
 import com.utnans.accountservice.mapper.TransactionMapper;
+import com.utnans.accountservice.repository.AccountRepository;
 import com.utnans.accountservice.repository.ClientRepository;
 import com.utnans.accountservice.repository.TransactionRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -41,6 +42,9 @@ class AccountServiceImplTest {
 
     @Mock
     private TransactionRepository transactionRepository;
+
+    @Mock
+    private AccountRepository accountRepository;
 
     @InjectMocks
     private AccountServiceImpl target;
@@ -76,16 +80,16 @@ class AccountServiceImplTest {
         when(clientRepository.findById(1L)).thenReturn(Optional.empty());
 
         // Act
-        var exception = assertThrows(BadRequestException.class, () -> target.getClientAccounts(1L),
+        var exception = assertThrows(NotFoundException.class, () -> target.getClientAccounts(1L),
                 "Expected AccountService to throw an exception if client was not found");
 
         // Assert
-        assertThat(exception.getMessage()).isEqualTo("Unable to find accounts for id: 1");
+        assertThat(exception.getMessage()).isEqualTo("Client with id: 1 was not found");
     }
 
     @Test
     @DisplayName("Returns transactions given an account number, offset and limit")
-    void getTransactions_returnsTransactionDtos_success() {
+    void getTransactions_accountFound_returnsTransactions() {
         // Arrange
         final var acctNo = "12345";
         final var offset = 3;
@@ -97,6 +101,7 @@ class AccountServiceImplTest {
 
         when(transactionRepository.findTransactionsForAccount(eq(acctNo), pageCaptor.capture())).thenReturn(transactions);
         when(transactionMapper.toTransactionDtos(transactions)).thenReturn(transactionDtos);
+        when(accountRepository.existsById(acctNo)).thenReturn(true);
 
         // Act
         var result = target.getTransactions(acctNo, offset, limit);
@@ -107,5 +112,22 @@ class AccountServiceImplTest {
         var capturedPageable = pageCaptor.getValue();
         assertThat(capturedPageable.getPageNumber()).isEqualTo(offset);
         assertThat(capturedPageable.getPageSize()).isEqualTo(limit);
+    }
+
+    @Test
+    @DisplayName("Throws an exception if trying to get the transactions for an account which does not exist")
+    void getTransactions_accountNotFound_throwsException() {
+        // Arrange
+        final var acctNo = "12345";
+
+        when(accountRepository.existsById(acctNo)).thenReturn(false);
+
+        // Act
+        var exception = assertThrows(NotFoundException.class, () -> target.getTransactions(acctNo, 3, 10),
+                "An exception must be thrown if the given account number is not found");
+
+        // Assert
+        assertThat(exception).hasMessage("Account with id: 12345 was not found");
+
     }
 }

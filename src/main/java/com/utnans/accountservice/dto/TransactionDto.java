@@ -11,9 +11,6 @@ public class TransactionDto {
     private LocalDateTime execDateTime;
     private BigDecimal sentAmount;
     private String sentCurrency;
-
     private String senderAccountNo;
-    private String senderName;
     private String receiverAccountNo;
-    private String receiverName;
 }

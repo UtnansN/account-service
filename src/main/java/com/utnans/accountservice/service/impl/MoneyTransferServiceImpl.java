@@ -4,6 +4,7 @@ import com.utnans.accountservice.dto.TransferRequestDto;
 import com.utnans.accountservice.entity.Account;
 import com.utnans.accountservice.entity.Transaction;
 import com.utnans.accountservice.exception.BadRequestException;
+import com.utnans.accountservice.exception.NotFoundException;
 import com.utnans.accountservice.repository.AccountRepository;
 import com.utnans.accountservice.repository.TransactionRepository;
 import com.utnans.accountservice.service.CurrencyService;
@@ -32,9 +33,9 @@ public class MoneyTransferServiceImpl implements MoneyTransferService {
         // Generally might be a wise idea to get both accounts in one fetch instead of getting by ID twice to reduce
         // database load. In this case going with fetching by id for simplicity.
         var senderAccount = accountRepository.findById(requestDto.getSenderAccount())
-                .orElseThrow(() -> new BadRequestException("Sending account was not found"));
+                .orElseThrow(() -> new NotFoundException("Sending account was not found"));
         var receiverAccount = accountRepository.findById(requestDto.getReceiverAccount())
-                .orElseThrow(() -> new BadRequestException("Receiving account was not found"));
+                .orElseThrow(() -> new NotFoundException("Receiving account was not found"));
 
         Currency requestCurrency;
         try {

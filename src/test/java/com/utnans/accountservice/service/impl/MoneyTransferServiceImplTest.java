@@ -4,6 +4,7 @@ import com.utnans.accountservice.dto.TransferRequestDto;
 import com.utnans.accountservice.entity.Account;
 import com.utnans.accountservice.entity.Transaction;
 import com.utnans.accountservice.exception.BadRequestException;
+import com.utnans.accountservice.exception.NotFoundException;
 import com.utnans.accountservice.repository.AccountRepository;
 import com.utnans.accountservice.repository.TransactionRepository;
 import com.utnans.accountservice.service.CurrencyService;
@@ -126,7 +127,7 @@ class MoneyTransferServiceImplTest {
         when(accountRepository.findById(dto.getSenderAccount())).thenReturn(Optional.empty());
 
         // Act
-        var exception = assertThrows(BadRequestException.class, () -> target.transferMoney(dto),
+        var exception = assertThrows(NotFoundException.class, () -> target.transferMoney(dto),
                 "An exception should be thrown if sender is not found");
 
         // Assert
@@ -142,7 +143,7 @@ class MoneyTransferServiceImplTest {
         when(accountRepository.findById(dto.getReceiverAccount())).thenReturn(Optional.empty());
 
         // Act
-        var exception = assertThrows(BadRequestException.class, () -> target.transferMoney(dto),
+        var exception = assertThrows(NotFoundException.class, () -> target.transferMoney(dto),
                 "An exception should be thrown if receiver is not found");
 
         // Assert
