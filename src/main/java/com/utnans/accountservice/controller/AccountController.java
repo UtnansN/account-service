@@ -5,6 +5,7 @@ import com.utnans.accountservice.dto.TransferRequestDto;
 import com.utnans.accountservice.service.AccountService;
 import com.utnans.accountservice.service.MoneyTransferService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
@@ -30,7 +31,7 @@ public class AccountController {
     })
     @GetMapping("{acctNo}/transactions")
     public List<TransactionDto> getTransactions(
-            @PathVariable String acctNo,
+            @PathVariable @Parameter(example = "79842731") String acctNo,
             @RequestParam(value = "offset", defaultValue = "0") @PositiveOrZero(message = "Offset may not be < 0") int offset,
             @RequestParam(value = "limit", defaultValue = "5") @Positive(message = "Limit may not be <= 0") int limit) {
         return accountService.getTransactions(acctNo, offset, limit);

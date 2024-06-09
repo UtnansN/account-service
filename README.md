@@ -16,3 +16,6 @@ This project uses Liquibase for the Database Migrations. Running the migrations 
 There is a swagger endpoint available at http://localhost:8080/swagger-ui/index.html. 
 <br>
 The transfer endpoint has a prefilled example for convenience.
+
+Test coverage should be just below 80% due to Mapstruct generating a lot of null checks for its stuff.
+Don't see much use for testing every single of these cases so leaving it at that - main Service logic should be covered.
