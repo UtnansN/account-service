@@ -8,9 +8,10 @@ import com.utnans.accountservice.repository.AccountRepository;
 import com.utnans.accountservice.repository.TransactionRepository;
 import com.utnans.accountservice.service.CurrencyService;
 import com.utnans.accountservice.service.MoneyTransferService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -26,7 +27,7 @@ public class MoneyTransferServiceImpl implements MoneyTransferService {
     private final TransactionRepository transactionRepository;
 
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void transferMoney(TransferRequestDto requestDto) {
         // Generally might be a wise idea to get both accounts in one fetch instead of getting by ID twice to reduce
         // database load. In this case going with fetching by id for simplicity.
