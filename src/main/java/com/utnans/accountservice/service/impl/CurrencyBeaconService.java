@@ -17,11 +17,6 @@ import java.util.Currency;
 @RequiredArgsConstructor
 public class CurrencyBeaconService implements CurrencyService {
 
-    private static final String API_KEY = "api_key";
-    private static final String FROM = "from";
-    private static final String TO = "to";
-    private static final String AMOUNT = "amount";
-
     @Value("${app.currency-beacon.api-key}")
     private String apiKey;
 
@@ -33,10 +28,10 @@ public class CurrencyBeaconService implements CurrencyService {
     @Override
     public BigDecimal getConvertedValue(Currency baseCurrency, Currency targetCurrency, BigDecimal amount) {
         var uri = UriComponentsBuilder.fromHttpUrl("%s/convert".formatted(baseUrl))
-                .queryParam(API_KEY, apiKey)
-                .queryParam(FROM, baseCurrency.getCurrencyCode())
-                .queryParam(TO, targetCurrency.getCurrencyCode())
-                .queryParam(AMOUNT, amount)
+                .queryParam(CurrencyBeaconConstants.API_KEY, apiKey)
+                .queryParam(CurrencyBeaconConstants.FROM, baseCurrency.getCurrencyCode())
+                .queryParam(CurrencyBeaconConstants.TO, targetCurrency.getCurrencyCode())
+                .queryParam(CurrencyBeaconConstants.AMOUNT, amount)
                 .toUriString();
 
         var response = restTemplate.getForEntity(uri, CurrencyBeaconResponse.class);

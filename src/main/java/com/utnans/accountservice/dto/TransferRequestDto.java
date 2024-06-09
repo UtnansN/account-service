@@ -1,8 +1,6 @@
 package com.utnans.accountservice.dto;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -24,5 +22,6 @@ public class TransferRequestDto {
 
     @NotNull(message = "Amount may not be null")
     @Positive(message = "Amount must be a positive value")
+    @Digits(integer = 16, fraction = 2, message = "Amount may have up to 16 significant figures and 2 decimal places")
     private BigDecimal amount;
 }
