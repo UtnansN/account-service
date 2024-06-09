@@ -7,8 +7,10 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 public class RestTemplateConfig {
-    @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
+    @Bean("currencyServiceTemplate")
+    public RestTemplate restTemplate(RestTemplateBuilder builder, CurrencyServiceErrorHandler errorHandler) {
+        return builder
+                .errorHandler(errorHandler)
+                .build();
     }
 }

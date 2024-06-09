@@ -3,7 +3,7 @@ package com.utnans.accountservice.service.impl;
 import com.utnans.accountservice.dto.integrations.CurrencyBeaconResponse;
 import com.utnans.accountservice.exception.CurrencyConversionException;
 import com.utnans.accountservice.service.CurrencyService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,7 +14,6 @@ import java.math.RoundingMode;
 import java.util.Currency;
 
 @Service
-@RequiredArgsConstructor
 public class CurrencyBeaconService implements CurrencyService {
 
     @Value("${app.currency-beacon.api-key}")
@@ -24,6 +23,10 @@ public class CurrencyBeaconService implements CurrencyService {
     private String baseUrl;
 
     private final RestTemplate restTemplate;
+
+    public CurrencyBeaconService(@Qualifier("currencyServiceTemplate") RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @Override
     public BigDecimal getConvertedValue(Currency baseCurrency, Currency targetCurrency, BigDecimal amount) {
