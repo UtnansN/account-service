@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface AccountService {
     List<AccountDto> getClientAccounts(Long id);
+
     List<TransactionDto> getTransactions(String acctNo, int offset, int limit);
 }

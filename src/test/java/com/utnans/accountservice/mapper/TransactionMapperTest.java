@@ -2,7 +2,6 @@ package com.utnans.accountservice.mapper;
 
 import com.utnans.accountservice.dto.TransactionDto;
 import com.utnans.accountservice.entity.Account;
-import com.utnans.accountservice.entity.Client;
 import com.utnans.accountservice.entity.Transaction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,8 +23,8 @@ class TransactionMapperTest {
         // Arrange
         var execTime = LocalDateTime.of(2023, 1, 1, 12, 30);
 
-        var sender = account("65423", "USD", "John", "Smith");
-        var receiver = account("63432", "HKD", "Bob", "Dylan");
+        var sender = account("65423", "USD");
+        var receiver = account("63432", "HKD");
 
         var tx = transaction(123L, execTime, sender, receiver, "1000", "5000");
 
@@ -43,11 +42,11 @@ class TransactionMapperTest {
         var execTime = LocalDateTime.of(2023, 1, 1, 12, 30);
         var execTime2 = LocalDateTime.of(2020, 5, 12, 15, 26);
 
-        var sender = account("65423", "USD", "John", "Smith");
-        var sender2 = account("45902", "EUR", "Jane", "Doe");
+        var sender = account("65423", "USD");
+        var sender2 = account("45902", "EUR");
 
-        var receiver = account("63432", "HKD", "Bob", "Dylan");
-        var receiver2 = account("23123", "AUD", "Maurice", "Mauritius");
+        var receiver = account("63432", "HKD");
+        var receiver2 = account("23123", "AUD");
 
         var tx = transaction(123L, execTime, sender, receiver, "1000", "5000");
         var tx2 = transaction(456L, execTime2, sender2, receiver2, "400", "200");
@@ -66,10 +65,7 @@ class TransactionMapperTest {
         assertThat(result.getExecDateTime()).isEqualTo(transaction.getExecDateTime());
         assertThat(result.getSentCurrency()).isEqualTo(transaction.getReceiverAccount().getCurrency().getCurrencyCode());
         assertThat(result.getSentAmount()).isEqualTo(transaction.getReceiverAmount());
-
-        assertThat(result.getSenderName()).isEqualTo(transaction.getSenderAccount().getClient().getFullName());
         assertThat(result.getSenderAccountNo()).isEqualTo(transaction.getSenderAccount().getAcctNo());
-        assertThat(result.getReceiverName()).isEqualTo(transaction.getReceiverAccount().getClient().getFullName());
         assertThat(result.getReceiverAccountNo()).isEqualTo(transaction.getReceiverAccount().getAcctNo());
     }
 
@@ -86,15 +82,10 @@ class TransactionMapperTest {
         return transaction;
     }
 
-    private static Account account(String acctNo, String currency, String clientFirstName, String clientLastName) {
-        var client = new Client();
-        client.setFirstName(clientFirstName);
-        client.setFirstName(clientLastName);
-
+    private static Account account(String acctNo, String currency) {
         var senderAccount = new Account();
         senderAccount.setAcctNo(acctNo);
         senderAccount.setCurrency(Currency.getInstance(currency));
-        senderAccount.setClient(client);
         return senderAccount;
     }
 }

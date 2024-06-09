@@ -36,10 +36,6 @@ public class Client {
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private List<Account> accounts;
 
-    public String getFullName() {
-        return "%s %s".formatted(firstName, lastName);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
