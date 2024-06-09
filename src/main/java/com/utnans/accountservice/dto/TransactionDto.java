@@ -10,6 +10,7 @@ public class TransactionDto {
     private Long transactionId;
     private LocalDateTime execDateTime;
     private BigDecimal sentAmount;
+    private String sentCurrency;
 
     private Long senderAccountNo;
     private String senderName;

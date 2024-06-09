@@ -12,8 +12,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +47,7 @@ public class CurrencyBeaconService implements CurrencyService {
 
         var convertedValue = new BigDecimal(response.getBody().value());
 
-        // Round to the next decimal place - no freebies allowed
+        // Round to the next decimal place; no freebies
         return convertedValue.setScale(2, RoundingMode.CEILING);
     }
 }
